@@ -47,35 +47,18 @@ state_0 = state;    % Preceding state
 chan_0 = chan;      % Preceding channel
 
 %Override test signals:
-xtest_a = [];
-xtest_b = [];
-a=0;
 while(state~=0)
     switch state
         case -1
             if state~=state_0; disp('Tx'); end
             
-            xa = adr();                                 % (1) (xa es un buffer de Na muestras capturadas de audio)
+            xa = adr(); %xa is a Na length buffer
             % *** YOUR CODE ***
-            % Task 1:
-            
-            % Task 2:
-            % xtest_b=[xtest_b;upsample(xa)];
         otherwise
             if state~=state_0; disp('Rx');  end
             
             % *** YOUR CODE ***
-            if state~=state_0
-                % Task 1: Test (play) one time the received signal
-                if ~isempty(xtest_a)
-                    truncate_audiosample_index=min(length(xtest_a),2*fsa);
-                    xtest_a=xtest_a(1:truncate_audiosample_index);
-                    adw(xtest_a);                                   % (Task 1)
-                % Task 2:
-                elseif ~isempty(xtest_b)
-                    
-                end
-            end
+            % adw(xa); % Example on how to play audio signal
     end
     state_0 = state;
     drawnow;
