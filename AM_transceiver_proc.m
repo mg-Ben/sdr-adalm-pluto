@@ -52,13 +52,13 @@ while(state~=0)
             
             xa = adr(); %xa is a Na length buffer
             % We work with the current buffer:
-            xtest_a_upsampled = upsample(xa, M);
-            xtest_b = conv(xtest_a_upsampled, ht);
-            
+            xb = conv(upsample(xa, M), ht');
+            xtest_b = xb;
             % On Rx side, we would downsample and truncate to Na:
-            ya = downsample(xtest_b, M)';
+            yb = xb;
+            ya = downsample(yb, M);
             ya = ya(1:Na);
-            adw(ya');
+            adw(ya);
     end
     state_0 = state;
     drawnow;
