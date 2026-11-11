@@ -50,8 +50,10 @@ chan_0 = chan;      % Preceding channel
 while(state~=0)
     switch state
         case 1 %Rx mode
-            xtest_a = adr();                                 % (1) (xa es un buffer de Na muestras capturadas de audio)
-            adw(xtest_a);
+            xa = adr();                                 % (1) (xa es un buffer de Na muestras capturadas de audio)
+            xtest_a = xa;
+            ya = xa;
+            adw(ya);
     end
     state_0 = state;
     drawnow;
