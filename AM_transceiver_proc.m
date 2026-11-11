@@ -16,13 +16,11 @@ xtest_a = sin(2*pi*(0:Na-1)'*f0/fsa);     % Test signal to be transmitted at aud
 xtest_b = sin(2*pi*(0:Ny-1)'*f0/fs);      % Test signal to be transmitted at base-band rate
 
 % Receive band-pass channel selection filter
-
 Lr=128;
 hr=fir1(Lr,(0.95*[-fsa, fsa]/2+fc1)*2/fs);
 zfr=zeros(Lr,1); % Filter memory
 
 % Transmit interpolation low-pass filter
-
 Lt=128;
 ht=M*fir1(Lt,1/M);
 zft=zeros(Lt,1); % Filter memory
@@ -49,16 +47,21 @@ chan_0 = chan;      % Preceding channel
 %Override test signals:
 while(state~=0)
     switch state
-        case -1
+        case 1
             if state~=state_0; disp('Tx'); end
             
             xa = adr(); %xa is a Na length buffer
-            % *** YOUR CODE ***
-        otherwise
-            if state~=state_0; disp('Rx');  end
-            
-            % *** YOUR CODE ***
-            % adw(xa); % Example on how to play audio signal
+            % We work with the current buffer:
+            xb = conv(upsample(xa, M), ht');
+            xc = (m/2)*xb + (1-m/2);
+
+            % On Rx side, we would downsample, truncate to Na and try to eliminate DC component:
+            yc = xc;
+            yb = yc-mean(xc);
+            ya = downsample(yb, M);
+            ya = ya(1:Na);
+
+            adw(ya);
     end
     state_0 = state;
     drawnow;
