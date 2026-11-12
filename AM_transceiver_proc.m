@@ -47,7 +47,7 @@ chan_0 = chan;      % Preceding channel
 %Override test signals:
 while(state~=0)
     switch state
-        case 1
+        case -1
             if state~=state_0; disp('Tx'); end
             
             xa = adr(); %xa is a Na length buffer
