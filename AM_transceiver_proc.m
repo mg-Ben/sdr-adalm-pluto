@@ -57,7 +57,7 @@ while(state~=0)
 
             % On Rx side, we would downsample, truncate to Na and try to eliminate DC component:
             yc = xc;
-            yb = yc-mean(xc);
+            yb = yc-mean(yc);
             ya = downsample(yb, M);
             ya = ya(1:Na);
 
