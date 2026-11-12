@@ -52,7 +52,7 @@ while(state~=0)
             
             xa = adr(); %xa is a Na length buffer
             % We work with the current buffer:
-            xb = conv(upsample(xa, M), ht');
+            [xb, zft] = filter(ht, 1, upsample(xa, M), zft);
             xc = (m/2)*xb + (1-m/2);
 
             % On Rx side, we would downsample, truncate to Na and try to eliminate DC component:
