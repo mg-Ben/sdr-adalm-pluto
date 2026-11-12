@@ -49,7 +49,7 @@ chan_0 = chan;      % Preceding channel
 %Initial state: Rx (1)
 while(state~=0)
     switch state
-        case 1 %Rx mode
+        case -1 %Tx mode
             xa = adr();                                 % (1) (xa es un buffer de Na muestras capturadas de audio)
             xtest_a = xa;
             ya = xa;
