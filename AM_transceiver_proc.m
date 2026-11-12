@@ -55,7 +55,7 @@ chan_0 = chan;      % Preceding channel
 %Override test signals:
 while(state~=0)
     switch state
-        case 1
+        case -1
             if state~=state_0; disp('Tx'); end
             
             xa = adr(); %xa is a Na length buffer
@@ -66,7 +66,7 @@ while(state~=0)
             x = xc.*c; % This would be the transmitted signal
             
             tx(complex(x));
-        case -1
+        case 1
             % On Rx side:
             [y1,valid,overflow]=rx(); % By default, it takes 20K samples
             % The system has considered this: that's why we have that each
