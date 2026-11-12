@@ -59,7 +59,6 @@ while(state~=0)
             yc = xc;
             yb = yc-mean(yc);
             ya = downsample(yb, M);
-            ya = ya(1:Na);
 
             adw(ya);
     end
