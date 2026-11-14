@@ -12,6 +12,18 @@ m=1;            % AM modulation index (0 to 1)
 Lt=128;         % Transmit interpolation low-pass filter
 Lr=128;         % Receive band-pass selection filter length
 unique_channels = [1, 2]; % Define all the available distinct channel numbers that will be used
+% Transmission over the air configuration:
+tx=sdrtx('Pluto');
+tx.CenterFrequency = fc;
+tx.BasebandSampleRate = fs;
+tx.Gain = -10;
+% Reception from the air configuration:
+rx=sdrrx('Pluto');
+rx.CenterFrequency = fc;
+rx.BasebandSampleRate = fs;
+rx.GainSource = 'Manual';       % Disable AGC for manual setting of gain
+rx.Gain = 0;
+
 % Channel mapping: we decide which one is TX channel and which RX channel:
 % For MASTER1 mode:
 master1_dict = dictionary(["RX_channel", "TX_channel"], [2, 1]);
@@ -122,10 +134,13 @@ while(state~=0)
         y1 = x;
     else
         % Transmit signal over the air
-        % TODO
+        tx(complex(x));
         % Receive signal
-        % TODO
         [y1,valid,overflow]=rx();
+        if overflow
+            disp('Buffer overflow')
+            y1 = zeros(1, Ny);
+        end
     end
     % ---------------
 
@@ -150,7 +165,7 @@ release(adw);
 release(adr);
 
 % Release transmitter and receiver
-% *** YOUR CODE ***
-
+release(tx);
+release(rx);
 
 disp('Radio off');
