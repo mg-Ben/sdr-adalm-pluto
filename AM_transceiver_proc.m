@@ -15,12 +15,11 @@ unique_channels = [1, 2]; % Define all the available distinct channel numbers th
 % Transmission over the air configuration:
 tx=sdrtx('Pluto');
 tx.CenterFrequency = fc;
-tx.BasebandSampleRate = fs;
+
 tx.Gain = -10;
 % Reception from the air configuration:
 rx=sdrrx('Pluto');
 rx.CenterFrequency = fc;
-rx.BasebandSampleRate = fs;
 rx.GainSource = 'Manual';       % Disable AGC for manual setting of gain
 rx.Gain = 0;
 
@@ -46,6 +45,8 @@ MasterSlave_settings = dictionary(["MASTER1", "SLAVE1", "MASTER2", "SLAVE2"], {m
 % If false, the transmission and reception channels are different and we transmit and receive over the air
 fs = M*fsa;     % Radio sampling rate
 Ny = Na*M;      % Length of receive buffer
+tx.BasebandSampleRate = fs;
+rx.BasebandSampleRate = fs;
 
 % Create a struct object for each unique channel. Each key corresponds to the channel number:
 % Example:
@@ -86,11 +87,6 @@ zfr = zeros(Lr,1);
 adr=audioDeviceReader(fsa,'SamplesPerFrame',Na);
 % Open audio writer
 adw=audioDeviceWriter(fsa,'BufferSize',Na);
-
-% Open transmitter and configure it. Release it at the end
-% *** YOUR CODE *** TO-DO
-% Open receiver and configure it. Release it at the end
-% *** YOUR CODE *** TO-DO
 
 
 
